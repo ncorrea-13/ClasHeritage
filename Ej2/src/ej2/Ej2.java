@@ -9,7 +9,6 @@ public class Ej2 {
         Lavadora lavadora = new Lavadora();
         Televisor televisor = new Televisor();
 
-        
         lavadora.crearLavadora();
         lavadora.precioFinal();
         
