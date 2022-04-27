@@ -2,11 +2,9 @@ package Electrodomestico;
 
 import java.util.Scanner;
 
-public class Electrodomestico {
+public class Electrodomestico extends Abstraccion {
 
-    private Integer precio, peso;
-    private String color;
-    private char consumoEnergetico = Character.forDigit('A', 'F');
+    protected Integer peso;
 
     public Electrodomestico() {
     }
@@ -26,14 +24,6 @@ public class Electrodomestico {
         return peso;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public char getConsumoEnergetico() {
-        return consumoEnergetico;
-    }
-
     public void setPrecio(Integer precio) {
         this.precio = precio;
     }
@@ -42,23 +32,23 @@ public class Electrodomestico {
         this.peso = peso;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public void setConsumoEnergetico(char consumoEnergetico) {
-        this.consumoEnergetico = consumoEnergetico;
-    }
-
     public char comprobarConsumo(char letra) {
-        if (letra != consumoEnergetico) {
-            letra = 'F';
+        switch (letra) {
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+                break;
+            default:
+                letra = 'F';
         }
         return letra;
     }
 
     public String comprobarColor(String color) {
-        switch (color) {
+        String toLowerCase = color.toLowerCase();
+        switch (toLowerCase) {
             case "rojo":
             case "azul":
             case "negro":
@@ -70,7 +60,8 @@ public class Electrodomestico {
         return color;
     }
 
-    public void crearElectrodoméstico() {
+    @Override
+    public void crearElectrodomestico() {
         Scanner leer = new Scanner(System.in).useDelimiter("\n");
 
         System.out.println("Dicte el precio");
@@ -83,15 +74,15 @@ public class Electrodomestico {
         peso = leer.nextInt();
 
         System.out.println("Dicte el color");
-        String leerColor = leer.next();
-        color = comprobarColor(leerColor);
+        color = comprobarColor(leer.next());
 
         System.out.println("Dicte el consumo eléctrico");
-        char leerLetra = leer.next().charAt(0);
-        consumoEnergetico = comprobarConsumo(leerLetra);
+        consumoEnergetico = comprobarConsumo(leer.next().charAt(0));
     }
 
+    @Override
     public void precioFinal() {
+
         switch (consumoEnergetico) {
             case 'A':
                 precio = precio + 1000;
@@ -113,14 +104,32 @@ public class Electrodomestico {
 
         }
 
-        if (1 <= peso || peso <= 19) {
-            precio = precio + 100;
-        } else if (20 <= peso || peso <= 49) {
-            precio = precio + 500;
-        } else if (50 <= peso || peso <= 79) {
-            precio = precio + 800;
-        } else if (80 <= peso) {
+        if (1 <= peso) {
+            if (peso <= 19) {
+                precio = precio + 100;
+            }
+        }
+        if (20 <= peso) {
+            if (peso <= 49) {
+                precio = precio + 500;
+            }
+        }
+        if (50 <= peso) {
+            if (peso <= 79) {
+                precio = precio + 800;
+            }
+        }
+        if (80 <= peso) {
             precio = precio + 1000;
         }
+    }
+
+    public void escribirDatos() {
+
+        System.out.println("Precio: " + precio);
+        System.out.println("Peso: " + peso);
+        System.out.println("Color: " + color);
+        System.out.println("Consumo energético: " + consumoEnergetico);
+
     }
 }
